@@ -1,0 +1,28 @@
+@import '_variables.scss';
+
+:root {
+  // Default theme (dark)
+  --background-color: #{$black};
+  --text-color: #{$white};
+  --primary-color: #{$red};
+}
+
+// Light theme
+.light-theme {
+  --background-color: #{$white};
+  --text-color: #{$black};
+  --primary-color: #{$orange};
+}
+
+// Apply theme to body
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  transition: background-color $transition-duration, color $transition-duration;
+}
+
+// Theme toggle functionality (you'll need to implement this in JavaScript)
+.theme-toggle {
+  cursor: pointer;
+  // Add styles for your theme toggle button
+}
