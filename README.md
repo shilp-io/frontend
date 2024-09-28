@@ -7,10 +7,10 @@ Simple Chatbot interface
 
 
 ### Light Mode
-![alt text](<Screenshot 2024-10-01 at 12.52.42 AM.png>)
+![alt text](light.png)
 
 ### Dark Mode
-![alt text](image.png)
+![alt text](dark.png)
 
 ## Expanding the ESLint configuration
 

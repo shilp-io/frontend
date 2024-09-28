@@ -17,4 +17,13 @@
 .description {
   font-size: 1.2rem;
   max-width: 600px;
+  margin-bottom: 2rem;
+}
+
+.chatbotButton {
+  background-color: var(--primary-color);
+  color: var(--background-color);
+  &:hover {
+    opacity: 0.9;
+  }
 }
