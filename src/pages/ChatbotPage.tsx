@@ -1,9 +1,11 @@
-import React, { useState, useRef, useEffect } from 'react';
+import Reat, { useState, useRef, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { FileIcon, PlusCircle, Send, X } from "lucide-react";
 import styles from '@/styles/pages/ChatbotPage.module.scss';
+import { uploadPdf } from '@/api';
+import { useApi } from '@/hooks/useApi';
 
 interface Message {
   id: string;
@@ -45,8 +47,22 @@ export const ChatbotPage: React.FC = () => {
     localStorage.setItem('uploadedFiles', JSON.stringify(uploadedFiles));
   }, [uploadedFiles]);
 
-  const handleSend = () => {
+  const { execute: executePdfUpload } = useApi<string>(uploadPdf);
+
+  const handleSend = async () => {
     if (input.trim() || uploadedFiles.length > 0) {
+      const attachments: string[] = [];
+            // Upload each file
+      for (const uploadedFile of uploadedFiles) {
+        try {
+          const uploadResult = await executePdfUpload(uploadedFile.file, 'user123'); // Replace 'user123' with actual user ID
+          attachments.push(uploadResult);
+        } catch (error) {
+          console.error(`Failed to upload file ${uploadedFile.name}:`, error);
+          // Optionally, you can add error handling here, such as showing an error message to the user
+        }
+      }
+
       const newMessage: Message = {
         id: Date.now().toString(),
         text: input,
