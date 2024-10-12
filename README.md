@@ -10,6 +10,9 @@
 ## Dark Mode
 ![Dark Mode](dark.png)
 
+## Recent Feature
+![Component View](prog.png)
+
 ## Prerequisites
 
 - [Bun](https://bun.sh/) installed on your system
