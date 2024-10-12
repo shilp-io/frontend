@@ -17,7 +17,7 @@ type FileItem = {
 type ChatItem = {
   id: string;
   title: string;
-  lastMessage: string;
+  desc: string;
   timestamp: string;
 };
 
@@ -35,9 +35,9 @@ const files: FileItem[] = [
 ];
 
 const requirements: ChatItem[] = [
-  { id: '1', title: 'Project Discussion', lastMessage: 'Let\'s schedule a meeting...', timestamp: '2 hours ago' },
-  { id: '2', title: 'AI Research', lastMessage: 'I found an interesting paper on...', timestamp: '1 day ago' },
-  { id: '3', title: 'Code Review', lastMessage: 'Can you check the latest commit?', timestamp: '3 days ago' },
+  { id: '1', title: 'Car Reverse Camera', desc: 'Camera specs', timestamp: '2 hours ago' },
+  { id: '2', title: 'Car Reverse Sensors', desc: 'Sensor Info', timestamp: '1 day ago' },
+  { id: '3', title: 'Car Reverse Beeper', desc: 'Beeper settings', timestamp: '3 days ago' },
 ];
 
 const subcomponents: SubcomponentItem[] = [
@@ -103,7 +103,7 @@ export const Component: React.FC = () => {
             <React.Fragment key={chat.id}>
               <div className={styles.listItem}>
                 <h3 className={styles.listItemTitle}>{chat.title}</h3>
-                <p className={`${styles.listItemDescription} text-muted-foreground`}>{chat.lastMessage}</p>
+                <p className={`${styles.listItemDescription} text-muted-foreground`}>{chat.desc}</p>
                 <p className={`${styles.listItemTimestamp} text-muted-foreground`}>{chat.timestamp}</p>
               </div>
               {index < requirements.length - 1 && <Separator />}
