@@ -20,8 +20,8 @@ To clone and set up the project using Bun:
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/frontend-shilp-io.git
-cd frontend-shilp-io
+git clone https://github.com/shilp-io/frontend.git
+cd frontend
 
 # Install dependencies
 bun install
