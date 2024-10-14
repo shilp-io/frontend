@@ -1,7 +1,7 @@
 import path from "path"
 import react from "@vitejs/plugin-react"
 import { defineConfig } from "vite"
-
+ 
 export default defineConfig({
   plugins: [react()],
   resolve: {
@@ -9,10 +9,4 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  build: {
-    rollupOptions: {
-      input: path.resolve(__dirname, 'index.html'), // Ensure this points to your main HTML file
-    },
-  },
 })
-

@@ -1,28 +1,21 @@
-import React from 'react';
-import { Header } from './components/common/Header';
-import { Home } from './pages/Home';
-import { useTheme } from './hooks/useTheme';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { ChatbotPage } from './pages/ChatbotPage';
-import { Dashboard } from './pages/Dashboard.tsx';
+import { Suspense } from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import { ThemeProvider } from './context/ThemeContext';
+import { AuthProvider } from './context/AuthContext';
+import Router from '@/routes';
 
-const App: React.FC = () => {
-  useTheme(); // This will initialize the theme
-
+function App() {
   return (
-    <Router>
-      <div className="app">
-        <Header />
-        <main>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/chatbot" element={<ChatbotPage />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-          </Routes>
-        </main>
-      </div>
-    </Router>
+    <AuthProvider>
+      <ThemeProvider>
+        <BrowserRouter>
+          <Suspense fallback={<div>Loading...</div>}>
+            <Router />
+          </Suspense>
+        </BrowserRouter>
+      </ThemeProvider>
+    </AuthProvider>
   );
-};
+}
 
 export default App;
