@@ -1,20 +1,17 @@
-import { Suspense } from 'react';
 import { BrowserRouter } from 'react-router-dom';
+import { UserProvider } from './context/UserContext';
 import { ThemeProvider } from './context/ThemeContext';
-import { AuthProvider } from './context/AuthContext';
-import Router from '@/routes';
+import Router from './routes';
 
 function App() {
   return (
-    <AuthProvider>
+    <UserProvider>
       <ThemeProvider>
         <BrowserRouter>
-          <Suspense fallback={<div>Loading...</div>}>
-            <Router />
-          </Suspense>
+          <Router />
         </BrowserRouter>
       </ThemeProvider>
-    </AuthProvider>
+    </UserProvider>
   );
 }
 

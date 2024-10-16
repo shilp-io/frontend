@@ -1,13 +1,12 @@
-// src/routes/guards/GuestGuard.tsx
 import { Navigate, useLocation } from 'react-router-dom';
-import { useAuth } from '@/context/AuthContext';
+import { useUser } from '@/context/UserContext';
 
 interface GuestGuardProps {
   children: React.ReactNode;
 }
 
 export function GuestGuard({ children }: GuestGuardProps) {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated } = useUser();
   const location = useLocation();
 
   if (isAuthenticated) {
