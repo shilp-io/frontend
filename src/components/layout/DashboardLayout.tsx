@@ -1,5 +1,5 @@
 import React from 'react';
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarProvider, SidebarTrigger, Sidebar } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/common/app-sidebar";
 import { useUser } from '@/context/UserContext';
 
@@ -11,15 +11,22 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   const { isAuthenticated } = useUser();
 
   return (
-    <div className="min-h-screen flex flex-col bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
-      <SidebarProvider>
+    <SidebarProvider>
+      <div className="flex h-screen overflow-hidden">
         {isAuthenticated && <AppSidebar />}
-        <main className="flex-grow container mx-auto px-4 py-8">
-          {isAuthenticated && <SidebarTrigger />}
-          {children}
-        </main>
-      </SidebarProvider>
-    </div>
+        <div className="flex flex-col flex-1">
+          <header className="flex-none border-b">
+            <div className="flex items-center justify-between p-2">
+              <SidebarTrigger />
+              {/* Add any other header content here */}
+            </div>
+          </header>
+          <main className="flex-1 min-h-0">
+            {children}
+          </main>
+        </div>
+      </div>
+    </SidebarProvider>
   );
 };
 
