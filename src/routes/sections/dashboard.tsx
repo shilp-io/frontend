@@ -10,29 +10,15 @@ const RequirementsPage = lazy(() => import('@/pages/dashboard/RequirementsPage')
 
 export const dashboardRoutes = [
     {
-        path: paths.dashboard,
+        path: `${paths.dashboard}/*`,
         element: (
             <AuthGuard>
                 <Routes>
                     <Route index element={<Dashboard />} />
                     <Route path="item/:id" element={<RequirementsPage />} />
+                    <Route path="profile" element={<Profile />} />
+                    <Route path="settings" element={<Settings />} />
                 </Routes>
-            </AuthGuard>
-        ),
-    },
-    {
-        path: paths.profile,
-        element: (
-            <AuthGuard>
-                <Profile />
-            </AuthGuard>
-        ),
-    },
-    {
-        path: paths.settings,
-        element: (
-            <AuthGuard>
-                <Settings />
             </AuthGuard>
         ),
     },

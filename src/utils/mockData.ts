@@ -7,7 +7,6 @@ export const MOCK_USERS = [
             {
                 id: '1',
                 title: 'Sample Chart',
-                type: 'chart',
                 data: {
                     labels: ['Jan', 'Feb', 'Mar'],
                     values: [10, 20, 30],
@@ -18,7 +17,6 @@ export const MOCK_USERS = [
             {
                 id: '2',
                 title: 'Sample Table',
-                type: 'table',
                 data: {
                     headers: ['Name', 'Value'],
                     rows: [

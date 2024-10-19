@@ -1,4 +1,5 @@
-import { Home, Search, Settings } from "lucide-react"
+import { Home, Settings, User } from "lucide-react"
+import { paths } from "@/routes/paths"
 
 import {
     Sidebar,
@@ -14,18 +15,18 @@ import {
 // Menu items.
 const items = [
     {
-        title: "Home",
-        url: "/",
+        title: "Dashboard",
+        url: paths.dashboard,
         icon: Home,
     },
     {
-        title: "Search",
-        url: "#",
-        icon: Search,
+        title: "Profile",
+        url: paths.profile,
+        icon: User,
     },
     {
         title: "Settings",
-        url: "/settings",
+        url: paths.settings,
         icon: Settings,
     },
 ]

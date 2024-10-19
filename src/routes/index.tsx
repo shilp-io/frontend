@@ -22,9 +22,7 @@ export default function Router() {
     ]);
 
     const location = useLocation();
-    const isDashboardRoute = dashboardRoutes.some(route => 
-        location.pathname.startsWith(route.path || '')
-    );
+    const isDashboardRoute = location.pathname.startsWith(paths.dashboard);
 
     return (
         <MainLayout isDashboardRoute={isDashboardRoute}>

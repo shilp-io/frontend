@@ -4,7 +4,7 @@ export const paths = {
     login: '/login',
     register: '/register',
     dashboard: '/dashboard',
-    profile: '/profile',
-    settings: '/settings',
+    profile: '/dashboard/profile',
+    settings: '/dashboard/settings',
     notFound: '*',
 } as const;
