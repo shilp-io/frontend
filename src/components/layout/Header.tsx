@@ -5,7 +5,7 @@ const Header: React.FC = () => {
     <header className="bg-gray-100 dark:bg-gray-800 py-4">
       <div className="container mx-auto px-4 flex justify-between items-center">
         <a href="/" className="text-xl font-bold">
-          Your Logo
+          Logo | Shilp
         </a>
         <nav>
           <ul className="flex space-x-4">
