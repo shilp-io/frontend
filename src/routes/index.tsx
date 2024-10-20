@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import { Suspense } from 'react';
 import { useRoutes, useLocation } from 'react-router-dom';
 import MainLayout from '@/components/layout/MainLayout';
 import { mainRoutes } from './sections/main';

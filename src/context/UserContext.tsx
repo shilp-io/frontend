@@ -69,8 +69,8 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  const addDashboardItem = (newItem: Omit<DashboardItem, 'id' | 'created' | 'lastModified'>) => {
-    if (!user) return;
+  const addDashboardItem = (newItem: Omit<DashboardItem, 'id' | 'created' | 'lastModified'>): string => {
+    if (!user) return '';
 
     const item: DashboardItem = {
       ...newItem,
@@ -86,6 +86,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
 
     setUser(updatedUser);
     storage.updateUser(updatedUser);
+    return item.id;
   };
 
   const deleteDashboardItem = (id: string) => {

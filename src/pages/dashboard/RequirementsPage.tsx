@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { DashboardItem } from '@/types/user';
 import { useUser } from '@/context/UserContext';
 import { Button } from '@/components/ui/button';
 
@@ -7,7 +8,14 @@ const RequirementsPage: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
     const { getDashboardItem, deleteDashboardItem } = useUser();
-    const item = getDashboardItem(id!);
+    const [item, setItem] = useState<DashboardItem | null | undefined>(undefined);
+
+    useEffect(() => {
+        if (id) {
+            const fetchedItem = getDashboardItem(id);
+            setItem(fetchedItem || null);
+        }
+    }, [id, getDashboardItem]);
 
     const handleDelete = () => {
         if (id) {
@@ -16,7 +24,11 @@ const RequirementsPage: React.FC = () => {
         }
     };
 
-    if (!item) {
+    if (item === undefined) {
+        return <div>Loading...</div>;
+    }
+
+    if (item === null) {
         return <div>Item not found</div>;
     }
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { SidebarProvider, SidebarTrigger, Sidebar } from "@/components/ui/sidebar";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/common/app-sidebar";
 import { useUser } from '@/context/UserContext';
 
