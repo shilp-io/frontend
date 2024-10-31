@@ -48,3 +48,12 @@ export default tseslint.config({
   },
 })
 ```
+
+## Using the Firestore Database
+
+You must navigate to the "Project Settings" and scroll down to "Your Apps" and then you must edit the .envVars file with our projects config.
+
+After that is set up, then you can perform these read and write operations into our Firestore Database, which is shown on this website.
+- Firestore Info (https://firebase.google.com/docs/firestore/quickstart#web_2)
+- Particularly the "Add data" and "Read data" sections.
+
