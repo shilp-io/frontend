@@ -51,6 +51,9 @@ export default tseslint.config({
 
 ## Using the Firestore Database
 
+Pre-requisites:
+- Have firebase installed through `npm install firebase`
+
 You must navigate to the "Project Settings" and scroll down to "Your Apps" and then you must edit the .envVars file with our projects config.
 
 After that is set up, then you can perform these read and write operations into our Firestore Database, which is shown on this website.
