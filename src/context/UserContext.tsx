@@ -56,7 +56,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
             email: fbUser.email!,
             name: fbUser.displayName || fbUser.email!,
             dashboardItems: [],
-            // Add any other user fields you need
+            avatar: "",
           };
           storage.updateUser(newUser);
           setUser(newUser);
