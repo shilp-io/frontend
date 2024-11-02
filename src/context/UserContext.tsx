@@ -1,14 +1,24 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { User, DashboardItem } from '../types/user';
-import { storage } from '../utils/storage';
+import React, { createContext, useContext, useState, useEffect } from "react";
+import { User, DashboardItem } from "../types/user";
+import { storage } from "../utils/storage";
+import {
+  signInWithEmailAndPassword,
+  signOut,
+  User as FirebaseUser,
+  onAuthStateChanged,
+} from "firebase/auth";
+import { auth } from "../config/firebase";
 
 interface UserContextType {
   user: User | null;
+  firebaseUser: FirebaseUser | null;
   isAuthenticated: boolean;
   isLoading: boolean;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
-  addDashboardItem: (item: Omit<DashboardItem, 'id' | 'created' | 'lastModified'>) => void;
+  addDashboardItem: (
+    item: Omit<DashboardItem, "id" | "created" | "lastModified">,
+  ) => void;
   deleteDashboardItem: (id: string) => void;
   updateDashboardItem: (id: string, updates: Partial<DashboardItem>) => void;
   getDashboardItem: (id: string) => DashboardItem | undefined;
@@ -16,7 +26,7 @@ interface UserContextType {
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
-const CURRENT_USER_KEY = 'current_user';
+const CURRENT_USER_KEY = "current_user";
 
 export function UserProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(() => {
@@ -24,9 +34,39 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
     return savedUser ? JSON.parse(savedUser) : null;
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [firebaseUser, setFirebaseUser] = useState<FirebaseUser | null>(null);
 
   useEffect(() => {
     storage.init(); // Initialize mock data if needed
+
+    // Set up Firebase Auth listener
+    const unsubscribe = onAuthStateChanged(auth, (fbUser) => {
+      setFirebaseUser(fbUser);
+      setIsLoading(false);
+
+      if (fbUser) {
+        // When Firebase authenticates, get or create user data
+        const foundUser = storage.getUser(fbUser.email!);
+        if (foundUser) {
+          setUser(foundUser);
+        } else {
+          // Create new user in your storage if they don't exist
+          const newUser: User = {
+            id: fbUser.uid,
+            email: fbUser.email!,
+            name: fbUser.displayName || fbUser.email!,
+            dashboardItems: [],
+            avatar: "",
+          };
+          storage.updateUser(newUser);
+          setUser(newUser);
+        }
+      } else {
+        setUser(null);
+      }
+    });
+
+    return () => unsubscribe();
   }, []);
 
   useEffect(() => {
@@ -40,20 +80,11 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
   const login = async (email: string, password: string) => {
     setIsLoading(true);
     try {
-      // Simulate API delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      const foundUser = storage.getUser(email);
-      if (!foundUser) {
-        throw new Error('User not found');
-      }
-      
-      // In a real app, you'd verify the password here
-      if (password !== 'demo') { // Simple demo password
-        throw new Error('Invalid password');
-      }
-
-      setUser(foundUser);
+      await signInWithEmailAndPassword(auth, email, password);
+      // User state will be updated by the onAuthStateChanged listener
+    } catch (error) {
+      console.error("Login error:", error);
+      throw new Error("Failed to login");
     } finally {
       setIsLoading(false);
     }
@@ -62,15 +93,20 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
   const logout = async () => {
     setIsLoading(true);
     try {
-      await new Promise(resolve => setTimeout(resolve, 500)); // Simulate API delay
-      setUser(null);
+      await signOut(auth);
+      // User state will be cleared by the onAuthStateChanged listener
+    } catch (error) {
+      console.error("Logout error:", error);
+      throw new Error("Failed to logout");
     } finally {
       setIsLoading(false);
     }
   };
 
-  const addDashboardItem = (newItem: Omit<DashboardItem, 'id' | 'created' | 'lastModified'>): string => {
-    if (!user) return '';
+  const addDashboardItem = (
+    newItem: Omit<DashboardItem, "id" | "created" | "lastModified">,
+  ): string => {
+    if (!user) return "";
 
     const item: DashboardItem = {
       ...newItem,
@@ -94,7 +130,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
 
     const updatedUser = {
       ...user,
-      dashboardItems: user.dashboardItems.filter(item => item.id !== id),
+      dashboardItems: user.dashboardItems.filter((item) => item.id !== id),
     };
 
     setUser(updatedUser);
@@ -106,10 +142,10 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
 
     const updatedUser = {
       ...user,
-      dashboardItems: user.dashboardItems.map(item =>
+      dashboardItems: user.dashboardItems.map((item) =>
         item.id === id
           ? { ...item, ...updates, lastModified: new Date().toISOString() }
-          : item
+          : item,
       ),
     };
 
@@ -118,14 +154,15 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
   };
 
   const getDashboardItem = (id: string) => {
-    return user?.dashboardItems.find(item => item.id === id);
+    return user?.dashboardItems.find((item) => item.id === id);
   };
 
   return (
     <UserContext.Provider
       value={{
         user,
-        isAuthenticated: !!user,
+        firebaseUser,
+        isAuthenticated: !!user && !!firebaseUser,
         isLoading,
         login,
         logout,
@@ -143,7 +180,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
 export const useUser = () => {
   const context = useContext(UserContext);
   if (context === undefined) {
-    throw new Error('useUser must be used within a UserProvider');
+    throw new Error("useUser must be used within a UserProvider");
   }
   return context;
 };

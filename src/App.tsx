@@ -1,7 +1,7 @@
-import { BrowserRouter } from 'react-router-dom';
-import { UserProvider } from './context/UserContext';
-import { ThemeProvider } from './context/ThemeContext';
-import Router from './routes';
+import { BrowserRouter } from "react-router-dom";
+import { UserProvider } from "./context/UserContext";
+import { ThemeProvider } from "./context/ThemeContext";
+import Router from "./routes";
 
 function App() {
   return (
